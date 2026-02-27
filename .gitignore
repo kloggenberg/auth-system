@@ -1,0 +1,42 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.userprefs
+*.dbmdl
+*.log
+*.vs/
+.vs/
+
+# NuGet
+*.nupkg
+.nuget/
+
+# Visual Studio
+.vs/
+.vscode/
+*.sln.docstates
+
+# Build artifacts
+*.dll
+*.exe
+*.pdb
+
+# Node (if frontend)
+node_modules/
+dist/
+build/
+
+# Docker
+docker-compose.override.yml
+
+# Environment
+.env
+
+# macOS
+.DS_Store
+
+# Logs
+logs/
+*.log
