@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import api from "../api";
 import { useNavigate, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { PageWrapper, AuthCard, AuthBranding } from './styles/Layout.styles';
@@ -26,21 +27,23 @@ export const RegisterPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-    const newUser = {
+  try {
+    await api.post("/Auth/register", {
       firstName,
       lastName,
       email,
       password,
-    };
+    });
 
-    localStorage.setItem('user', JSON.stringify(newUser));
-
-    alert('Registration successful!');
-    navigate('/');
-  };
+    alert("Registration successful!");
+    navigate("/");
+  } catch {
+    alert("Registration failed");
+  }
+};
 
   return (
     <PageWrapper>

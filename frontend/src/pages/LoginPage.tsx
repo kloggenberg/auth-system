@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import api from "../api";
+import { useAuth } from "../context/AuthContext";
 import { useNavigate, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { PageWrapper, AuthCard, AuthBranding } from './styles/Layout.styles';
@@ -24,21 +26,23 @@ export const LoginPage = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { setToken } = useAuth();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-  
-    const storedUser = localStorage.getItem('user');
-    if (!storedUser) {
-      setError('No registered user found.');
-      return;
-    }
-  
-    const parsedUser = JSON.parse(storedUser);
-    if (parsedUser.email === email && parsedUser.password === password) {
-      localStorage.setItem('isAuthenticated', 'true');
+
+    try {
+      const response = await api.post("/Auth/login", {
+        email,
+        password,
+      });
+      console.log("Login sent")
+      setToken(response.data.token);
       navigate('/user');
-    } else {
+      console.log(response.data);
+    } catch (err) {
+      console.error(err);
       setError('Invalid email or password');
     }
   };
