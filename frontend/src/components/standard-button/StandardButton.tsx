@@ -4,12 +4,11 @@ import type { StandardButtonProps } from './StandardButton.types';
 
 export const StandardButton: React.FC<StandardButtonProps> = ({
   label,
-  children,
   ...rest
 }) => {
   return (
     <StyledButton {...rest}>
-      {label ?? children}
+      {label}
     </StyledButton>
   );
 };
