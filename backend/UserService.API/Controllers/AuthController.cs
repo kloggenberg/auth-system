@@ -38,7 +38,8 @@ public class AuthController : ControllerBase
 
         if (existingUser != null)
         {
-            return BadRequest("Email already registered.");
+            // Fix: Wrap string in an object for React compatibility
+            return BadRequest(new { message = "Email already registered." });
         }
 
         var user = new User
@@ -53,7 +54,7 @@ public class AuthController : ControllerBase
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
 
-        return Ok("User registered successfully");
+        return Ok(new { message = "User registered successfully" });
     }
 
     [HttpPost("login")]
@@ -64,14 +65,16 @@ public class AuthController : ControllerBase
 
         if (user == null)
         {
-            return Unauthorized("Invalid credentials.");
+            // Fix: Wrap string in an object
+            return Unauthorized(new { message = "Invalid credentials." });
         }
 
         var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
 
         if (result == PasswordVerificationResult.Failed)
         {
-            return Unauthorized("Invalid credentials.");
+            // Fix: Wrap string in an object
+            return Unauthorized(new { message = "Invalid credentials." });
         }
 
         var tokenHandler = new JwtSecurityTokenHandler();
@@ -105,12 +108,11 @@ public class AuthController : ControllerBase
     [Authorize]
     public async Task<IActionResult> GetUserDetails()
     {
-        // Get user ID from JWT claims
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
         if (userId == null)
         {
-            return Unauthorized();
+            return Unauthorized(new { message = "User not found in session." });
         }
 
         var user = await _context.Users
@@ -118,7 +120,7 @@ public class AuthController : ControllerBase
 
         if (user == null)
         {
-            return NotFound();
+            return NotFound(new { message = "User record not found." });
         }
 
         return Ok(new UserDetailsResponse
