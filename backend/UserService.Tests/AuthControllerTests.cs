@@ -45,7 +45,7 @@ public class AuthControllerTests
         {
             FirstName = "Test",
             LastName = "User",
-            Email = "test@test.com",
+            Email = "test@gmail.com",
             Password = "Password123!"
         };
 
@@ -53,7 +53,7 @@ public class AuthControllerTests
 
         var user = await context.Users.FirstOrDefaultAsync();
         Assert.NotNull(user);
-        Assert.Equal("test@test.com", user.Email);
+        Assert.Equal("test@gmail.com", user.Email);
     }
 
     [Fact]
@@ -67,7 +67,7 @@ public class AuthControllerTests
         {
             FirstName = "Test",
             LastName = "User",
-            Email = "login@test.com"
+            Email = "login@gmail.com"
         };
         user.PasswordHash = hasher.HashPassword(user, "Password123!");
 
@@ -78,7 +78,7 @@ public class AuthControllerTests
 
         var request = new LoginRequest
         {
-            Email = "login@test.com",
+            Email = "login@gmail.com",
             Password = "Password123!"
         };
 
@@ -98,7 +98,7 @@ public class AuthControllerTests
         {
             FirstName = "Test",
             LastName = "User",
-            Email = "duplicate@test.com",
+            Email = "duplicate@gmail.com",
             Password = "Password123!"
         };
 

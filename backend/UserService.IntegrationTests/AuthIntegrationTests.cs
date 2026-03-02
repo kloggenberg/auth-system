@@ -20,7 +20,7 @@ public class AuthIntegrationTests : IClassFixture<TestingWebAppFactory>
     public async Task User_Can_Register_Login_And_Get_Profile()
     {
         // 1️⃣ Arrange
-        var uniqueEmail = $"success-{Guid.NewGuid()}@test.com";
+        var uniqueEmail = $"success-{Guid.NewGuid()}@gmail.com";
         var register = new RegisterRequest
         {
             FirstName = "Test",
@@ -56,7 +56,7 @@ public class AuthIntegrationTests : IClassFixture<TestingWebAppFactory>
     public async Task Login_With_Wrong_Password_Returns_Unauthorized()
     {
         // Arrange
-        var email = $"auth-fail-{Guid.NewGuid()}@test.com";
+        var email = $"auth-fail-{Guid.NewGuid()}@gmail.com";
         await _client.PostAsJsonAsync("/api/auth/register", new RegisterRequest 
         { 
             Email = email, 
@@ -80,7 +80,7 @@ public class AuthIntegrationTests : IClassFixture<TestingWebAppFactory>
     public async Task Register_Duplicate_Email_Returns_BadRequest()
     {
         // Arrange
-        var email = $"dup-{Guid.NewGuid()}@test.com";
+        var email = $"dup-{Guid.NewGuid()}@gmail.com";
         var user = new RegisterRequest { Email = email, Password = "Password123!", FirstName = "User", LastName = "One" };
 
         // Act

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export const InfoGroup = styled.div`
   margin-bottom: 20px;
@@ -60,5 +60,33 @@ export const ErrorMessage = styled.span`
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-5px); }
     to { opacity: 1; transform: translateY(0); }
+  }
+`;
+
+const fadeIn = keyframes`
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+`;
+
+export const StatusMessage = styled.div<{ $isSuccess: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid;
+  animation: ${fadeIn} 0.3s ease-out;
+
+  /* Conditional Styling */
+  background-color: ${props => props.$isSuccess ? '#f0fdf4' : '#fef2f2'};
+  color: ${props => props.$isSuccess ? '#166534' : '#991b1b'};
+  border-color: ${props => props.$isSuccess ? '#bbf7d0' : '#fecaca'};
+
+  svg {
+    flex-shrink: 0;
   }
 `;
