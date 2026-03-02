@@ -11,7 +11,13 @@ A robust, Dockerised authentication system built with **.NET 8, React, PostgreSQ
 
 ---
 
-## 🚀 Quick Start (Windows)
+# How It Works
+1. **Infrastructure:** Docker Compose spins up three services: a PostgreSQL database, the .NET Web API, and the React frontend.
+2. **Authentication:** Upon successful login, the Backend issues a JWT (JSON Web Token). This token is stored on the client and sent in the Authorization header for all subsequent requests to protected endpoints.
+3. **Security:** The "User Details" endpoint is protected by an `[Authorize]` attribute, ensuring only users with a valid token can view private profile information.
+4. **Reliability:** The project includes a full test suite. Unit tests verify the core logic, while Integration tests verify the end-to-end API response flow including database persistence.
+
+## Quick Start (Windows)
 
 The easiest way to build, test, and run the entire stack is using the included **PowerShell CLI** from the root directory.
 
@@ -20,11 +26,11 @@ Run the script with flags to customize your workflow:
 
 | Flag | Short | Description |
 | :--- | :--- | :--- |
-| `-ut` | Runs backend Unit Tests |
-| `-it` | Runs backend Integration Tests |
-| `-up` | Builds & starts the full stack in Docker |
-| `-down` | Stops and removes Docker containers |
-| `-a` | Runs tests + Docker (Default) |
+| `-ut` | Runs backend Unit Tests | Runs unit tests
+| `-it` | Runs backend Integration Tests | Runs intergration tests
+| `-up` | Builds & starts the full stack in Docker | Builds and starts Docker compose and run application
+| `-down` | Stops and removes Docker containers | Stops Docker compose and stops application
+| `-a` | Runs tests + Docker (Default) | Runs all commands
 
 **Examples:**
 ```powershell
@@ -49,7 +55,7 @@ Run the script with flags to customize your workflow:
 - **Docker Orchestration:** Multi-container setup ensuring the app runs identically in any environment.
 - **Modern UX:** Inline notifications with smooth fade-in animations and automatic redirects.
 
-## 🏗 Microservice Architecture: API Gateway Pattern
+## Microservice Architecture: API Gateway Pattern
 To meet the microservice requirement, I implemented an **Nginx API Gateway**:
 - **Unified Entry Point**: The entire system is accessible via `http://localhost` (Port 80).
 - **Reverse Proxy**: Nginx acts as a gateway, routing requests starting with `/api/` to the .NET Backend and all other traffic to the React Frontend.
@@ -71,9 +77,4 @@ To meet the microservice requirement, I implemented an **Nginx API Gateway**:
 - Nginx: Serving as an API Gateway and Reverse Proxy.
 - Docker & Docker Compose
 - PostgreSQL 16
-
-# How It Works
-1. **Infrastructure:** Docker Compose spins up three services: a PostgreSQL database, the .NET Web API, and the React frontend.
-2. **Authentication:** Upon successful login, the Backend issues a JWT (JSON Web Token). This token is stored on the client and sent in the Authorization header for all subsequent requests to protected endpoints.
-3. **Security:** The "User Details" endpoint is protected by an `[Authorize]` attribute, ensuring only users with a valid token can view private profile information.
-4. **Reliability:** The project includes a full test suite. Unit tests verify the core logic, while Integration tests verify the end-to-end API response flow including database persistence.
+- GitHub Actions: Multi-job YAML pipeline for CI/CD.
