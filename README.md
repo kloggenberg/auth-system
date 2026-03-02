@@ -4,7 +4,7 @@ A robust, Dockerised authentication system built with **.NET 8, React, PostgreSQ
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 - **`/backend`**: .NET 8 Web API, Entity Framework Core, and xUnit Test Suites.
 - **`/frontend`**: React 18 (Vite) + TypeScript and Styled Components.
 - **`docker-compose.yml`**: Root orchestration for the API, Database, and Client.
@@ -49,6 +49,13 @@ Run the script with flags to customize your workflow:
 - **Docker Orchestration:** Multi-container setup ensuring the app runs identically in any environment.
 - **Modern UX:** Inline notifications with smooth fade-in animations and automatic redirects.
 
+## 🏗 Microservice Architecture: API Gateway Pattern
+To meet the microservice requirement, I implemented an **Nginx API Gateway**:
+- **Unified Entry Point**: The entire system is accessible via `http://localhost` (Port 80).
+- **Reverse Proxy**: Nginx acts as a gateway, routing requests starting with `/api/` to the .NET Backend and all other traffic to the React Frontend.
+- **Network Security**: The Backend and PostgreSQL database are isolated within a private Docker network. They are not exposed to the host machine, preventing unauthorized direct access.
+- **Scalability**: This architecture allows for additional microservices (e.g., Email or Logging services) to be added and routed via the Gateway without changing the Frontend configuration.
+
 # Tech Stack
 ## Frontend
 - React (Vite) & TypeScript
@@ -61,6 +68,7 @@ Run the script with flags to customize your workflow:
 - xUnit & FluentAssertions for testing
 
 ## Infrastructure
+- Nginx: Serving as an API Gateway and Reverse Proxy.
 - Docker & Docker Compose
 - PostgreSQL 16
 
