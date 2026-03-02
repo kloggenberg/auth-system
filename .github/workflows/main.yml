@@ -26,14 +26,15 @@ jobs:
           dotnet restore backend/UserService.Tests/UserService.Tests.csproj
           dotnet restore backend/UserService.IntegrationTests/UserService.IntegrationTests.csproj
 
-      - name: Build Backend
-        run: dotnet build backend/UserService.API/UserService.API.csproj --configuration Release --no-restore
+      - name: Build Backend (Release)
+        run: dotnet build backend/UserService.API/UserService.API.csproj --configuration Release
 
       - name: Run Unit Tests
-        run: dotnet test backend/UserService.Tests/UserService.Tests.csproj --configuration Release --no-build
+        # We point to the project file and let dotnet find the Release DLLs itself
+        run: dotnet test backend/UserService.Tests/UserService.Tests.csproj --configuration Release --verbosity normal
 
       - name: Run Integration Tests
-        run: dotnet test backend/UserService.IntegrationTests/UserService.IntegrationTests.csproj --configuration Release --no-build
+        run: dotnet test backend/UserService.IntegrationTests/UserService.IntegrationTests.csproj --configuration Release --verbosity normal
         env:
           Jwt__Key: "ci-test-key-must-be-at-least-32-chars-long!!"
           Jwt__Issuer: "auth-system"
