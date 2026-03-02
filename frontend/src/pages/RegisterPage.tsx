@@ -16,7 +16,6 @@ export const RegisterPage = () => {
     password: ''
   });
 
-  // 1. Added message state
   const [status, setStatus] = useState<{ text: string; type: 'success' | 'error' | '' }>({
     text: '',
     type: ''
@@ -30,13 +29,12 @@ export const RegisterPage = () => {
   e.preventDefault();
   setStatus({ text: '', type: '' });
 
-  // 1. Domain Validation Check
   if (!formData.email.toLowerCase().endsWith('@gmail.com')) {
     setStatus({ 
       text: "Only Gmail addresses are allowed at this time.", 
       type: 'error' 
     });
-    return; // Stop the function here
+    return;
   }
 
   try {

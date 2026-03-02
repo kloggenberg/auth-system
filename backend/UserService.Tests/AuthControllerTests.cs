@@ -61,7 +61,6 @@ public class AuthControllerTests
     {
         var context = CreateContext();
 
-        // Arrange user (hash password like real flow)
         var hasher = new PasswordHasher<User>();
         var user = new User
         {

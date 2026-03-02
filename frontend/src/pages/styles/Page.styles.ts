@@ -30,31 +30,30 @@ export const RedirectText = styled.p`
   text-align: center;
 
   a {
-    color: #0052cc; /* Professional Blue */
+    color: #0052cc;
     text-decoration: none;
     font-weight: 600;
     transition: color 0.2s ease;
 
     &:hover {
       text-decoration: underline;
-      color: #0747a6; /* Darker blue on hover */
+      color: #0747a6;
     }
   }
 `;
 
 export const ErrorMessage = styled.span`
   display: block;
-  background-color: #FFEBE6; /* Very light red/pink background */
-  color: #DE350B;            /* Strong error red */
+  background-color: #FFEBE6;
+  color: #DE350B;
   font-size: 12px;
   font-weight: 600;
   margin-top: 8px;
   margin-bottom: 16px;
   padding: 8px 12px;
   border-radius: 3px;
-  border-left: 3px solid #DE350B; /* Accent line to make it look like an alert */
+  border-left: 3px solid #DE350B;
   
-  /* Smoothly appear if you add a transition */
   animation: fadeIn 0.2s ease-in;
 
   @keyframes fadeIn {
@@ -85,10 +84,8 @@ export const StatusMessage = styled.div<{ $isSuccess: boolean }>`
   font-weight: 500;
   line-height: 1.25rem;
   
-  /* Applying the animation */
   animation: ${fadeIn} 0.3s ease-out;
 
-  /* Dynamic colors based on the $isSuccess prop */
   background-color: ${props => props.$isSuccess ? '#f0fdf4' : '#fef2f2'};
   color: ${props => props.$isSuccess ? '#166534' : '#991b1b'};
   border: 1px solid ${props => props.$isSuccess ? '#bbf7d0' : '#fee2e2'};

@@ -38,7 +38,6 @@ public class AuthController : ControllerBase
 
         if (existingUser != null)
         {
-            // Fix: Wrap string in an object for React compatibility
             return BadRequest(new { message = "Email already registered." });
         }
 
@@ -65,7 +64,6 @@ public class AuthController : ControllerBase
 
         if (user == null)
         {
-            // Fix: Wrap string in an object
             return Unauthorized(new { message = "Invalid credentials." });
         }
 
@@ -73,7 +71,6 @@ public class AuthController : ControllerBase
 
         if (result == PasswordVerificationResult.Failed)
         {
-            // Fix: Wrap string in an object
             return Unauthorized(new { message = "Invalid credentials." });
         }
 
