@@ -1,5 +1,7 @@
+<#
 .SYNOPSIS
-
+    Build script for the UserService project with short aliases.
+#>
 Param(
     [Alias("ut")][Parameter(Mandatory=$false)][switch]$unittest,
     [Alias("it")][Parameter(Mandatory=$false)][switch]$integrationtest,

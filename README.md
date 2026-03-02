@@ -22,8 +22,8 @@ Run the script with flags to customize your workflow:
 | :--- | :--- | :--- |
 | `-ut` | Runs backend Unit Tests |
 | `-it` | Runs backend Integration Tests |
-| `-docker` | `-up` | Builds & starts the full stack in Docker |
-| `-stop` | `-down` | Stops and removes Docker containers |
+| `-up` | Builds & starts the full stack in Docker |
+| `-down` | Stops and removes Docker containers |
 | `-a` | Runs tests + Docker (Default) |
 
 **Examples:**
@@ -31,8 +31,11 @@ Run the script with flags to customize your workflow:
 # Run the full pipeline (Tests + Docker)
 .\build.ps1 -a
 
-# Just run the test suites
-.\build.ps1 -ut -it
+# Just run the unit test suite
+.\build.ps1 -ut
+
+# Just run the intergration test suite
+.\build.ps1 -it
 
 # Stop the environment
 .\build.ps1 -down
