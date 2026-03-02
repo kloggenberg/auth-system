@@ -14,27 +14,24 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # --- BACKEND SECTION ---
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
 
       - name: Restore Backend Dependencies
-        run: dotnet restore ./backend/UserService.sln
+        run: dotnet restore **/*.sln
 
       - name: Build Backend
-        run: dotnet build ./backend/UserService.sln --configuration Release --no-restore
+        run: dotnet build **/*.sln --configuration Release --no-restore
 
       - name: Run Unit & Integration Tests
-        run: dotnet test ./backend/UserService.sln --configuration Release --no-build --verbosity normal
+        run: dotnet test **/*.sln --configuration Release --no-build --verbosity normal
         env:
-          # Providing dummy secrets so tests don't fail on missing config
           Jwt__Key: "ci-test-key-must-be-at-least-32-chars-long!!"
           Jwt__Issuer: "auth-system"
           Jwt__Audience: "auth-system"
 
-      # --- FRONTEND SECTION ---
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -52,9 +49,7 @@ jobs:
           cd frontend
           npm run build
 
-      # --- INFRASTRUCTURE SECTION ---
       - name: Verify Docker Environment
-        # This checks if the Dockerfiles and the Gateway config (nginx.conf) are valid
         run: docker compose config
 
       - name: Full Docker Build Verification
