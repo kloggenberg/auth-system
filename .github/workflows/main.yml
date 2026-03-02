@@ -2,35 +2,40 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main, master, feat/adding-CI-* ] # Added your current branch pattern
+    branches: [ main, master, feat/adding-CI-* ]
   pull_request:
     branches: [ main, master ]
 
 jobs:
-  build-and-test:
+  backend-build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # --- BACKEND SECTION ---
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
 
-      - name: Restore Backend Dependencies
+      - name: Restore & Build
         run: |
           dotnet restore backend/UserService.API/UserService.API.csproj
-          dotnet restore backend/UserService.Tests/UserService.Tests.csproj
-          dotnet restore backend/UserService.IntegrationTests/UserService.IntegrationTests.csproj
+          dotnet build backend/UserService.API/UserService.API.csproj --configuration Release
 
-      - name: Build Backend (Release)
-        run: dotnet build backend/UserService.API/UserService.API.csproj --configuration Release
+  backend-test:
+    needs: backend-build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
 
       - name: Run Unit Tests
-        # We point to the project file and let dotnet find the Release DLLs itself
         run: dotnet test backend/UserService.Tests/UserService.Tests.csproj --configuration Release --verbosity normal
 
       - name: Run Integration Tests
@@ -40,7 +45,12 @@ jobs:
           Jwt__Issuer: "auth-system"
           Jwt__Audience: "auth-system"
 
-      # --- FRONTEND SECTION ---
+  frontend-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -48,19 +58,20 @@ jobs:
           cache: 'npm'
           cache-dependency-path: './frontend/package-lock.json'
 
-      - name: Install Frontend Deps
+      - name: Install & Build
         run: |
           cd frontend
           npm ci 
-
-      - name: Build Frontend
-        run: |
-          cd frontend
           npm run build
 
-      # --- INFRASTRUCTURE SECTION ---
-      - name: Verify Docker Environment
-        run: docker compose config
+  docker-verify:
+    needs: [backend-test, frontend-build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-      - name: Full Docker Build Verification
-        run: docker compose build
+      - name: Verify Docker Environment
+        run: |
+          docker compose config
+          docker compose build
