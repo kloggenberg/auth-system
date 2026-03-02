@@ -2,7 +2,7 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main, master, feat/adding-CI-* ] # Added your current branch pattern
   pull_request:
     branches: [ main, master ]
 
@@ -14,24 +14,32 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      # --- BACKEND SECTION ---
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
 
       - name: Restore Backend Dependencies
-        run: dotnet restore **/*.sln
+        run: |
+          dotnet restore backend/UserService.API/UserService.API.csproj
+          dotnet restore backend/UserService.Tests/UserService.Tests.csproj
+          dotnet restore backend/UserService.IntegrationTests/UserService.IntegrationTests.csproj
 
       - name: Build Backend
-        run: dotnet build **/*.sln --configuration Release --no-restore
+        run: dotnet build backend/UserService.API/UserService.API.csproj --configuration Release --no-restore
 
-      - name: Run Unit & Integration Tests
-        run: dotnet test **/*.sln --configuration Release --no-build --verbosity normal
+      - name: Run Unit Tests
+        run: dotnet test backend/UserService.Tests/UserService.Tests.csproj --configuration Release --no-build
+
+      - name: Run Integration Tests
+        run: dotnet test backend/UserService.IntegrationTests/UserService.IntegrationTests.csproj --configuration Release --no-build
         env:
           Jwt__Key: "ci-test-key-must-be-at-least-32-chars-long!!"
           Jwt__Issuer: "auth-system"
           Jwt__Audience: "auth-system"
 
+      # --- FRONTEND SECTION ---
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -42,13 +50,14 @@ jobs:
       - name: Install Frontend Deps
         run: |
           cd frontend
-          npm ci # Use 'npm ci' for faster, more reliable CI builds
+          npm ci 
 
       - name: Build Frontend
         run: |
           cd frontend
           npm run build
 
+      # --- INFRASTRUCTURE SECTION ---
       - name: Verify Docker Environment
         run: docker compose config
 
