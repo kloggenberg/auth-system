@@ -6,7 +6,6 @@ import { StandardButton } from "../components/standard-button/StandardButton";
 import { InfoGroup, Label, Value } from "./styles/Page.styles";
 import { AuthLayout } from "../components/auth-layout/AuthLayout";
 
-// Define what a User looks like
 interface User {
   firstName: string;
   lastName: string;
@@ -53,8 +52,13 @@ export const UserDetailsPage = () => {
       {user ? (
         <>
           <InfoGroup>
-            <Label>Full Name</Label>
-            <Value>{user.firstName} {user.lastName}</Value>
+            <Label>First Name</Label>
+            <Value>{user.firstName}</Value>
+          </InfoGroup>
+
+          <InfoGroup>
+            <Label>Last Name</Label>
+            <Value>{user.lastName}</Value>
           </InfoGroup>
 
           <InfoGroup>
