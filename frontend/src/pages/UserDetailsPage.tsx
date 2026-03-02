@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../api";
+import api from "../API/api";
 import { useAuth } from "../context/AuthContext";
 import { StandardButton } from "../components/standard-button/StandardButton";
 import { InfoGroup, Label, Value } from "./styles/Page.styles";

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import api from "../api";
+import api from "../API/api";
 import { useNavigate, Link } from 'react-router-dom';
 import { StandardButton } from '../components/standard-button/StandardButton';
 import { RedirectText, StatusMessage } from './styles/Page.styles'; 

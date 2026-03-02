@@ -40,7 +40,7 @@ if ($integrationtest) {
 if ($docker) {
     Write-Host "`n🐳 [3] Building and Starting Docker Containers..." -ForegroundColor Yellow
     docker-compose up --build -d
-    Write-Host "System is live at http://localhost:5173" -ForegroundColor Gray
+    Write-Host "System is live at http://localhost" -ForegroundColor Gray
 }
 
 Write-Host "`nDone!" -ForegroundColor Green
